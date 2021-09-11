@@ -1,19 +1,8 @@
-class Alleater {
+class Alleater extends leavingcreature {
     constructor(x, y, id) {
-        this.x = x
-        this.y = y
-        this.id = id
+     super(x,y,id)
         this.energy = 8
-        this.directions = [
-            [this.x - 1, this.y - 1],
-            [this.x, this.y - 1],
-            [this.x + 1, this.y - 1],
-            [this.x - 1, this.y],
-            [this.x + 1, this.y],
-            [this.x - 1, this.y + 1],
-            [this.x, this.y + 1],
-            [this.x + 1, this.y + 1]
-        ];
+      
 
     }
     chooseCell() {
@@ -44,20 +33,7 @@ class Alleater {
     }
 
     mul() {
-        var emptyCells = this.chooseCell(0);
-        var newCell = random(emptyCells);
-
-
-        if (newCell && this.energy >= 12) {
-            var newX = newCell[0];
-            var newY = newCell[1];
-            matrix[newY][newX] = this.id;
-
-            var newalleater = new Alleater(newX, newY, 4);
-            alleaterArr.push(newalleater);
-            this.energy = 8;
-
-        }
+   return super.mul()
 
     }
     move() {

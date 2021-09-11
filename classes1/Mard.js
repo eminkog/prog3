@@ -1,35 +1,15 @@
-class Mard {
+class Mard extends leavingcreature {
     constructor(x, y, id) {
-        this.x = x;
-        this.y = y;
-        this.id = id;
+        super(x,y,id)
         this.energy = 8;
-        this.directions = [
-            [this.x - 1, this.y - 1],
-            [this.x, this.y - 1],
-            [this.x + 1, this.y - 1],
-            [this.x - 1, this.y],
-            [this.x + 1, this.y],
-            [this.x - 1, this.y + 1],
-            [this.x, this.y + 1],
-            [this.x + 1, this.y + 1]
-        ];
+     
 
     }
     chooseCell(character) {
-        var found = [];
-        this.getNewCoordinates()
-        for (var i in this.directions) {
-            var x = this.directions[i][0];
-            var y = this.directions[i][1];
-            if (x >= 0 && x < matrix[0].length && y >= 0 && y < matrix.length) {
-
-                if (matrix[y][x] == character) {
-                    found.push(this.directions[i]);
-                }
-            }
-        }
-        return found;
+        
+        this.getNewCoordinates();
+        return super.chooseCell(character);
+  
     }
     getNewCoordinates() {
         this.directions = [
@@ -47,20 +27,7 @@ class Mard {
 
 
     mul() {
-        var emptyCells = this.chooseCell(0);
-        var newCell = random(emptyCells);
-
-
-        if (newCell && this.energy >= 12) {
-            var newX = newCell[0];
-            var newY = newCell[1];
-            matrix[newY][newX] = this.id;
-
-            var newMard = new Mard(newX, newY, 5);
-            mardArr.push(newMard);
-            this.energy = 8;
-
-        }
+      return super.mul();
 
     }
 
