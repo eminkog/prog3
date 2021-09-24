@@ -1,4 +1,4 @@
-class leavingcreature{
+module.exports=class leavingcreature{
     constructor(x,y,id){
     this.x = x;
     this.y=y;

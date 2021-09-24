@@ -1,4 +1,8 @@
-class Alleater extends leavingcreature {
+var leavingcreature = require("./classes1/leavingcreature.js")
+var random = require("./classes1/random.js")
+
+
+module.exports=class Alleater extends leavingcreature {
     constructor(x, y, id) {
      super(x,y,id)
         this.energy = 8
