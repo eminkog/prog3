@@ -1,3 +1,6 @@
+var random = require("./classes1/random.js");
+
+
 
 var matrix = [];
 var sermncanArr=[];
