@@ -1,5 +1,4 @@
-var leavingcreature = require("./classes1/leavingcreature.js")
-var random = require("./classes1/random.js")
+var leavingcreature = require("./leavingcreauture")
 
 
 
@@ -17,6 +16,6 @@ module.exports= class Grass extends leavingcreature{
     mul () {
        return super.mul();
     }
- 
+   
 
 } 

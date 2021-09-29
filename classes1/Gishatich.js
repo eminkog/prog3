@@ -1,5 +1,5 @@
-var leavingcreature= require("./classes1/leavingcreature.js")
-var random = require("./classes1/random.js")
+var leavingcreature = require("./leavingcreauture")
+var random = require("./random")
 
 
 

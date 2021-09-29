@@ -1,9 +1,20 @@
-var Grass = require("./classes1/Grass")
-var GrassEater = require("./classes1/GarssEater")
-var Mard = require("./classes1/Mard")
-var Gishatich = require("./classes1/Gishatich")
 
 
+var express = require('express');
+const random = require('./classes1/random');
+var app = express();
+var server = require('http').createServer(app);
+var io = require('socket.io')(server);
+
+app.use(express.static("."));
+
+app.get('/', function (req, res) {
+    res.redirect('index.html');
+});
+
+server.listen(3000, function () {
+    console.log("Example is running on port 3000");
+})
 var matrix = [];
 var sermncanArr = [];
 var mardArr = [];
@@ -12,21 +23,34 @@ var grassEaterArr = [];
 var gishatichArr = [];
 var alleaterArr = [];
 
+var Grass = require("./classes1/Grass")
+var GrassEater = require("./classes1/GarssEater")
+var Mard = require("./classes1/Mard")
+var Gishatich = require("./classes1/Gishatich")
+var Alleater = require("./classes1/Alleater")
+var Sermnacan = require("./classes1/Sermnacan")
+var leavingcreature = require("./classes1/leavingcreauture");
+var Grass = require('./classes1/Grass');
+var grasscount = 0
 
-function generatMatrix(size) {
-    var matrix = []
-    for (let y = 0; y < size; y++) {
+
+
+function generateMatrix() {
+    for (let y = 0; y < 5; y++) {
         matrix[y] = []
-        for (let x = 0; x < size; x++) {
-            var numbers = [0, 0, 0, 0, 0, 1, 1, 1, 1, 2, 2, 2, 2, 3, 3, 3, 4, 4, 4, 5, 5, 6, 6]
+        for (let x = 0; x < 5; x++) {
+            var numbers = [0, 0, 0, 0, 0 ]
             var elemante = random(numbers)
             matrix[y][x] = elemante
 
         }
 
     }
-    return matrix
+    io.sockets.emit("data", matrix)
+
+
 }
+generateMatrix()
 
 function createobject() {
     for (let y = 0; y < matrix.length; y++) {
@@ -63,37 +87,178 @@ function createobject() {
 
     }
 
-
+    io.sockets.emit("data", matrix)
 
 }
-
-var express = require('express');
-var app = express();
-var server = require('http').createServer(app);
-var io = require('socket.io')(server);
-
-server.listen(3000, function () {
-    console.log("Example is running on port 3000");
-})
 
 function game() {
+
+    for (let i = 0; i < grassArr.length; i++) {
+        grassArr[i].mul()
+
+    }
+    for (let i = 0; i < grassEaterArr.length; i++) {
+        grassEaterArr[i].eat()
+
+    }
+    for (let i = 0; i < gishatichArr.length; i++) {
+        gishatichArr[i].eat()
+
+    }
+    setTimeout(function () {
+        for (let i = 0; i < alleaterArr.length; i++) {
+            alleaterArr[i].eat()
+        }
+    }, 3000)
+
+    for (let i = 0; i < sermncanArr.length; i++) {
+        sermncanArr[i].move()
+    }
+
+    for (let i = 0; i < mardArr.length; i++) {
+        mardArr[i].eat()
+
+    }
+    io.sockets.emit("data", matrix)
 }
-for (let i = 0; i < grassArr.length; i++) {
-    grassArr[i].mul()
+setInterval(game, 500)
+
+function addgrass() {
+    for (var y = 0; y < matrix.length; y++) {
+        for (var x = 0; x < matrix[0].length; x++) {
+            if (matrix[y][x] === 0) {
+                matrix[y][x] = 1
+                var g = new Grass(x, y, 1)
+                grassArr.push(g)
+                
+          
+               
+            }
+
+        }
+
+    }
+   
+    io.sockets.emit("data", matrix)
 
 }
-for (let i = 0; i < grassEaterArr.length; i++) {
-    grassEaterArr[i].eat()
 
+
+function addgrasseater() {
+    for (let y = 0; i < matrix.length; i++) {
+        for (let x = 0; j < matrix[0].length; j++) {
+            if (matrix[y][x] == 1) {
+                var GrassEater = GrassEater(x, y, 2)
+                grassEaterArr.push(GrassEater)
+            }
+
+        }
+
+    }
+    io.sockets.emit("data", matrix)
 }
-for (let i = 0; i < gishatichArr.length; i++) {
-    gishatichArr[i].eat()
 
+function addalleater() {
+    for (let y = 0; i < matrix.length; i++) {
+        for (let x = 0; j < matrix[0].length; j++) {
+            if (matrix[y][x] == 1) {
+                var Alleater = Alleater(x, y, 4)
+                alleaterArr.push(Alleater)
+            }
+
+        }
+
+    }
+    io.sockets.emit("data", matrix)
 }
-setTimeout("for (let i = 0; i < alleaterArr.length; i++) {alleaterArr[i].eat()}", 5000)
-setTimeout("for (let i = 0; i < sermncanArr.length; i++) {sermncanArr[i].move()}", 3000)
 
-for (let i = 0; i < mardArr.length; i++) {
-    mardArr[i].eat()
+function addmard() {
+    for (let y = 0; i < matrix.length; i++) {
+        for (let x = 0; j < matrix[0].length; j++) {
+            if (matrix[y][x] == 1) {
+                var Mard = Mard(x, y, 1)
+                mardArr.push(Mard)
+            }
 
+        }
+
+    }
+    io.sockets.emit("data", matrix)
 }
+
+function addsermnacan() {
+    for (let y = 0; i < matrix.length; i++) {
+        for (let x = 0; j < matrix[0].length; j++) {
+            if (matrix[y][x] == 1) {
+                var Sermnacan = Sermnacan(x, y, 1)
+                mardArr.push(Sermnacan)
+            }
+
+        }
+
+    }
+    io.sockets.emit("data", matrix)
+}
+
+function addgishatich() {
+    for (let y = 0; i < matrix.length; i++) {
+        for (let x = 0; j < matrix[0].length; j++) {
+            if (matrix[y][x] == 1) {
+                var Gishatich = Gishatich(x, y, 1)
+                mardArr.push(Gishatich)
+            }
+
+        }
+
+    }
+    io.sockets.emit("data", matrix)
+}
+
+function strike(evt) {
+    var randomarr = [
+        [matrix[x][y - 2] = 0]
+        [matrix[x - 1][y - 2] = 0]
+        [matrix[x + 1][y - 2] = 0]
+        [matrix[x + 2][y - 1] = 0]
+        [matrix[x + 2][y] = 0]
+        [matrix[x + 2][y + 1] = 0]
+        [matrix[x + 1][y + 2] = 0]
+        [matrix[x][y + 2] = 0]
+        [matrix[x - 1][y + 2] = 0]
+        [matrix[x - 2][y + 1] = 0]
+        [matrix[x - 2][y] = 0]
+        [matrix[x - 2][y - 1] = 0]
+    ]
+    var place = random(randomarr)
+    for (let y = 0; y < matrix.length; y++) {
+        for (let x = 0; x < matrix.length; x++) {
+            if (matrix[y][x] == place[0][1]) {
+                matrix[x][y - 2] = 0
+                matrix[x - 1][y - 2] = 0
+                matrix[x + 1][y - 2] = 0
+                matrix[x + 2][y - 1] = 0
+                matrix[x + 2][y] = 0
+                matrix[x + 2][y + 1] = 0
+                matrix[x + 1][y + 2] = 0
+                matrix[x][y + 2] = 0
+                matrix[x - 1][y + 2] = 0
+                matrix[x - 2][y + 1] = 0
+                matrix[x - 2][y] = 0
+                matrix[x - 2][y - 1] = 0
+            }
+
+        }
+
+    }
+
+io.sockets.emit("data",matrix)
+}
+
+
+
+
+io.sockets.on("click", strike)
+io.on('connection', function (socket) {
+    createobject()
+    io.sockets.on("addgrass", addgrass)
+})
