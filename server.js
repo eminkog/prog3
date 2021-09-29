@@ -15,33 +15,32 @@ app.get('/', function (req, res) {
 server.listen(3000, function () {
     console.log("Example is running on port 3000");
 })
-var matrix = [];
-var sermncanArr = [];
-var mardArr = [];
-var grassArr = [];
-var grassEaterArr = [];
-var gishatichArr = [];
-var alleaterArr = [];
+  matrix = [];
+  sermncanArr = [];
+  mardArr = [];
+  grassArr = [];
+  grassEaterArr = [];
+  gishatichArr = [];
+  alleaterArr = [];
 
-var Grass = require("./classes1/Grass")
+Grass = require("./classes1/Grass")
 var GrassEater = require("./classes1/GarssEater")
 var Mard = require("./classes1/Mard")
 var Gishatich = require("./classes1/Gishatich")
 var Alleater = require("./classes1/Alleater")
 var Sermnacan = require("./classes1/Sermnacan")
 var leavingcreature = require("./classes1/leavingcreauture");
-var Grass = require('./classes1/Grass');
 var grasscount = 0
 
 
 
 function generateMatrix() {
-    for (let y = 0; y < 5; y++) {
+    for (let y = 0; y < 10; y++) {
         matrix[y] = []
-        for (let x = 0; x < 5; x++) {
-            var numbers = [0, 0, 0, 0, 0 ]
-            var elemante = random(numbers)
-            matrix[y][x] = elemante
+        for (let x = 0; x < 10; x++) {
+            var numbers = 0
+            //var elemante = numbers
+            matrix[y][x] = numbers
 
         }
 
@@ -93,7 +92,7 @@ function createobject() {
 
 function game() {
 
-    for (let i = 0; i < grassArr.length; i++) {
+    for (let i in grassArr) {
         grassArr[i].mul()
 
     }
@@ -121,18 +120,17 @@ function game() {
     }
     io.sockets.emit("data", matrix)
 }
-setInterval(game, 500)
+setInterval(game, 1000)
 
 function addgrass() {
     for (var y = 0; y < matrix.length; y++) {
-        for (var x = 0; x < matrix[0].length; x++) {
-            if (matrix[y][x] === 0) {
+        for (var x = 0; x < matrix[0].length; x++) { 
+            if (matrix[y][x] == 0) {
+               console.log(y);
                 matrix[y][x] = 1
-                var g = new Grass(x, y, 1)
+                var g = new Grass(y, x, 1)
                 grassArr.push(g)
-                
-          
-               
+                break;
             }
 
         }
@@ -260,5 +258,5 @@ io.sockets.emit("data",matrix)
 io.sockets.on("click", strike)
 io.on('connection', function (socket) {
     createobject()
-    io.sockets.on("addgrass", addgrass)
+    socket.on("addgrass", addgrass)
 })

@@ -4,14 +4,14 @@ var socket = io()
 
 function setup() {
 	 side = 20
-	createCanvas(5 * side, 5 * side)
+	createCanvas(10 * side, 10 * side)
 	background("black")
 }
 
 	function nkarel(matrix) {
 		console.log(matrix);
-		for (var y = 0; y < 5; y++) {
-			for (var x = 0; x < 5; x++) {
+		for (var y = 0; y < 10; y++) {
+			for (var x = 0; x < 10; x++) {
 
 				var obj = matrix[y][x]
 				if (obj == 0) {
@@ -52,7 +52,10 @@ function setup() {
 	socket.on("data", nkarel)
 	
 	function addgrass() {
-		socket.emit("addgrass")
+		socket.emit("addgrass",function(){
+			console.log("click");
+			
+		})
 	}
 	function generatematrix() {
 		socket.emit("generatematrix")

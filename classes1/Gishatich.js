@@ -30,7 +30,20 @@ module.exports=class Gishatich extends leavingcreature {
 
 
     mul() {
-return super.mul()
+        var emptyCells = this.chooseCell(0);
+        var newCell = random(emptyCells);
+
+
+        if (newCell && this.energy >= 12) {
+            var newX = newCell[0];
+            var newY = newCell[1];
+            matrix[newY][newX] = this.id;
+
+            var newgishatich = new Gishatich(newX, newY, 3);
+            gishatichArr.push(newgishatich);
+            this.energy = 8;
+
+        }
 
     }
 

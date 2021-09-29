@@ -37,9 +37,24 @@ module.exports=class Alleater extends leavingcreature {
     }
 
     mul() {
-   return super.mul()
+        var emptyCells = this.chooseCell(0);
+        var newCell = random(emptyCells);
+
+
+        if (newCell && this.energy >= 12) {
+            var newX = newCell[0];
+            var newY = newCell[1];
+            matrix[newY][newX] = this.id;
+
+            var newalleater = new Alleater(newX, newY, 4);
+            alleaterArr.push(newalleater);
+            this.energy = 8;
+
+        }
 
     }
+
+    
     move() {
         var emptyCells = this.chooseCell(0);
         var newCell = random(emptyCells);
