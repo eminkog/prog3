@@ -31,7 +31,13 @@ Alleater = require("./classes1/Alleater")
 Sermnacan = require("./classes1/Sermnacan")
 leavingcreature = require("./classes1/leavingcreauture");
 grasscount = 0
+grasseatercount = 0
+gishatichcount = 0
+mardcount = 0
+alleatercount = 0
+sermnacancount = 0
 wheather = "winter"
+
 
 
 function changeweather() {
@@ -115,6 +121,47 @@ function createobject() {
 
 }
 
+function addgrasscount() {
+    grasscount = grassArr.length
+    io.sockets.emit("hashiv_grass", grasscount)
+}
+function addgishatichcount() {
+    gishatichcount = gishatichArr.length
+    io.sockets.emit("hashiv_gishatich", gishatichcount)
+}
+function addgrasseatercount() {
+    grasseatercount = grassEaterArr.length
+    io.sockets.emit("hashiv_grasseater", grasseatercount)
+}
+function addalleatercount() {
+    alleatercount = alleaterArr.length
+    io.sockets.emit("hashiv_alleater", alleatercount)
+}
+function addmardcount() {
+    mardcount = mardArr.length
+    io.sockets.emit("hashiv_mard", mardcount)
+}
+function addsermnacancount() {
+    sermnacancount = sermncanArr.length
+    io.sockets.emit("hashiv_serm", sermnacancount)
+}
+setInterval(addsermnacancount, 1000)
+
+
+setInterval(addmardcount, 1000)
+
+
+setInterval(addalleatercount, 1000)
+
+
+setInterval(addgrasseatercount, 1000)
+
+
+setInterval(addgishatichcount, 1000)
+
+
+setInterval(addgrasscount, 1000)
+
 function game() {
     // grass start
     if (wheather == "winter") {
@@ -123,7 +170,7 @@ function game() {
                 grassArr[i].mul()
 
             }
-        },5000)
+        }, 5000)
     }
     else if (wheather == "spring") {
         setTimeout(function () {
@@ -131,7 +178,7 @@ function game() {
                 grassArr[i].mul()
 
             }
-        },3000)
+        }, 3000)
     }
     else if (wheather == "authumn") {
         setTimeout(function () {
@@ -139,7 +186,7 @@ function game() {
                 grassArr[i].mul()
 
             }
-        },4000)
+        }, 4000)
     }
     else if (wheather == "summer") {
         setTimeout(function () {
@@ -147,10 +194,10 @@ function game() {
                 grassArr[i].mul()
 
             }
-        },1000)
+        }, 1000)
     }
 
-//grass end
+    //grass end
 
     for (let i = 0; i < grassEaterArr.length; i++) {
         grassEaterArr[i].eat()
@@ -177,8 +224,11 @@ function game() {
         mardArr[i].eat()
 
     }
+    grasscount = grassArr.length
+
     io.sockets.emit("data", senddata)
 }
+
 setInterval(game, 1000)
 
 function addgrass() {
@@ -373,7 +423,7 @@ function start() {
 
 let senddata = {
     matrix: matrix,
-    grasscount1: grasscount,
+    grasscount: grasscount,
     wheather: wheather
 
 }
