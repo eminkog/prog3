@@ -92,7 +92,7 @@ module.exports=class GrassEater extends leavingcreature {
                     break;
                 }
             }
-            this.mul()
+            this.die()
 
         } else {
             this.move()
@@ -111,6 +111,7 @@ module.exports=class GrassEater extends leavingcreature {
             }
 
             matrix[this.y][this.x] = 0
+            return matrix
         }
     }
 }

@@ -111,6 +111,7 @@ module.exports=class Mard extends leavingcreature {
             }
 
             matrix[this.y][this.x] = 0
+         
         }
     }
 }

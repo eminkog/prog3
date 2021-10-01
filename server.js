@@ -1,7 +1,7 @@
 
 
 var express = require('express');
-const random = require('./classes1/random');
+var random = require('./classes1/random');
 var app = express();
 var server = require('http').createServer(app);
 var io = require('socket.io')(server);
@@ -15,37 +15,61 @@ app.get('/', function (req, res) {
 server.listen(3000, function () {
     console.log("Example is running on port 3000");
 })
-  matrix = [];
-  sermncanArr = [];
-  mardArr = [];
-  grassArr = [];
-  grassEaterArr = [];
-  gishatichArr = [];
-  alleaterArr = [];
+matrix = [];
+sermncanArr = [];
+mardArr = [];
+grassArr = [];
+grassEaterArr = [];
+gishatichArr = [];
+alleaterArr = [];
 
 Grass = require("./classes1/Grass")
-var GrassEater = require("./classes1/GarssEater")
-var Mard = require("./classes1/Mard")
-var Gishatich = require("./classes1/Gishatich")
-var Alleater = require("./classes1/Alleater")
-var Sermnacan = require("./classes1/Sermnacan")
-var leavingcreature = require("./classes1/leavingcreauture");
-var grasscount = 0
+GrassEater = require("./classes1/GarssEater")
+Mard = require("./classes1/Mard")
+Gishatich = require("./classes1/Gishatich")
+Alleater = require("./classes1/Alleater")
+Sermnacan = require("./classes1/Sermnacan")
+leavingcreature = require("./classes1/leavingcreauture");
+grasscount = 0
+wheather = "winter"
 
 
+function changeweather() {
+
+    if (wheather == "winter") {
+        wheather = "spring"
+
+    }
+    else if (wheather == "spring") {
+        wheather = "summer"
+
+    }
+    else if (wheather == "summer") {
+        wheather = "authumn"
+
+    }
+    else if (wheather == "authumn") {
+        wheather = "winter"
+
+    }
+    io.sockets.emit("wheath", wheather)
+
+
+} console.log(wheather);
+setInterval(changeweather, 7000)
 
 function generateMatrix() {
-    for (let y = 0; y < 10; y++) {
+    for (let y = 0; y < 20; y++) {
         matrix[y] = []
-        for (let x = 0; x < 10; x++) {
-            var numbers = 0
-            //var elemante = numbers
-            matrix[y][x] = numbers
+        for (let x = 0; x < 20; x++) {
+            var numbers = [0, 0, 0, 0, 0, 1, 1, 1, 1, 2, 2, 2, 2, 3, 3, 3, 4, 4, 4, 5, 5, 6, 6]
+            var elemante = random(numbers)
+            matrix[y][x] = elemante
 
         }
 
     }
-    io.sockets.emit("data", matrix)
+    return matrix
 
 
 }
@@ -56,6 +80,7 @@ function createobject() {
         for (let x = 0; x < matrix[y].length; x++) {
             if (matrix[y][x] == 1) {
                 var g = new Grass(x, y, 1)
+                grasscount++
                 grassArr.push(g)
             }
             else if (matrix[y][x] == 2) {
@@ -86,16 +111,47 @@ function createobject() {
 
     }
 
-    io.sockets.emit("data", matrix)
+    io.sockets.emit("data", senddata)
 
 }
 
 function game() {
+    // grass start
+    if (wheather == "winter") {
+        setTimeout(function () {
+            for (let i in grassArr) {
+                grassArr[i].mul()
 
-    for (let i in grassArr) {
-        grassArr[i].mul()
-
+            }
+        },5000)
     }
+    else if (wheather == "spring") {
+        setTimeout(function () {
+            for (let i in grassArr) {
+                grassArr[i].mul()
+
+            }
+        },3000)
+    }
+    else if (wheather == "authumn") {
+        setTimeout(function () {
+            for (let i in grassArr) {
+                grassArr[i].mul()
+
+            }
+        },4000)
+    }
+    else if (wheather == "summer") {
+        setTimeout(function () {
+            for (let i in grassArr) {
+                grassArr[i].mul()
+
+            }
+        },1000)
+    }
+
+//grass end
+
     for (let i = 0; i < grassEaterArr.length; i++) {
         grassEaterArr[i].eat()
 
@@ -105,111 +161,150 @@ function game() {
 
     }
     setTimeout(function () {
+        for (let i = 0; i < sermncanArr.length; i++) {
+            sermncanArr[i].move()
+        }
+    }, 2000)
+    setTimeout(function () {
         for (let i = 0; i < alleaterArr.length; i++) {
             alleaterArr[i].eat()
         }
     }, 3000)
 
-    for (let i = 0; i < sermncanArr.length; i++) {
-        sermncanArr[i].move()
-    }
+
 
     for (let i = 0; i < mardArr.length; i++) {
         mardArr[i].eat()
 
     }
-    io.sockets.emit("data", matrix)
+    io.sockets.emit("data", senddata)
 }
 setInterval(game, 1000)
 
 function addgrass() {
-    for (var y = 0; y < matrix.length; y++) {
-        for (var x = 0; x < matrix[0].length; x++) { 
-            if (matrix[y][x] == 0) {
-               console.log(y);
-                matrix[y][x] = 1
-                var g = new Grass(y, x, 1)
-                grassArr.push(g)
-                break;
-            }
+    for (let i = 0; i < 7; i++) {
+        var y = random(matrix.length)
+        var x = random(matrix[0].length)
+        if (matrix[y][x] == 0) {
+
+            console.log(y);
+            matrix[y][x] = 1
+            var g = new Grass(x, y, 1)
+            grassArr.push(g)
+            grasscount++
+            break
 
         }
 
     }
-   
-    io.sockets.emit("data", matrix)
+
+
+    io.sockets.emit("data", senddata)
 
 }
+
+
+
 
 
 function addgrasseater() {
-    for (let y = 0; i < matrix.length; i++) {
-        for (let x = 0; j < matrix[0].length; j++) {
-            if (matrix[y][x] == 1) {
-                var GrassEater = GrassEater(x, y, 2)
-                grassEaterArr.push(GrassEater)
-            }
+    for (let i = 0; i < 7; i++) {
+        var y = random(matrix.length)
+        var x = random(matrix[0].length)
+        if (matrix[y][x] == 0) {
+
+            console.log(y);
+            matrix[y][x] = 2
+            var ge = new GrassEater(x, y, 2)
+            grassEaterArr.push(ge)
+            break
 
         }
 
     }
-    io.sockets.emit("data", matrix)
+
+
+    io.sockets.emit("data", senddata)
 }
 
 function addalleater() {
-    for (let y = 0; i < matrix.length; i++) {
-        for (let x = 0; j < matrix[0].length; j++) {
-            if (matrix[y][x] == 1) {
-                var Alleater = Alleater(x, y, 4)
-                alleaterArr.push(Alleater)
-            }
+    for (let i = 0; i < 7; i++) {
+        var y = random(matrix.length)
+        var x = random(matrix[0].length)
+        if (matrix[y][x] == 0) {
+
+            console.log(y);
+            matrix[y][x] = 4
+            var all = new Alleater(x, y, 4)
+            alleaterArr.push(all)
+            break
 
         }
 
     }
-    io.sockets.emit("data", matrix)
+
+
+    io.sockets.emit("data", senddata)
 }
 
 function addmard() {
-    for (let y = 0; i < matrix.length; i++) {
-        for (let x = 0; j < matrix[0].length; j++) {
-            if (matrix[y][x] == 1) {
-                var Mard = Mard(x, y, 1)
-                mardArr.push(Mard)
-            }
+    for (let i = 0; i < 7; i++) {
+        var y = random(matrix.length)
+        var x = random(matrix[0].length)
+        if (matrix[y][x] == 0) {
+
+            console.log(y);
+            matrix[y][x] = 5
+            var mard = new Mard(x, y, 5)
+            mardArr.push(mard)
+            break
 
         }
 
     }
-    io.sockets.emit("data", matrix)
+
+
+    io.sockets.emit("data", senddata)
 }
 
 function addsermnacan() {
-    for (let y = 0; i < matrix.length; i++) {
-        for (let x = 0; j < matrix[0].length; j++) {
-            if (matrix[y][x] == 1) {
-                var Sermnacan = Sermnacan(x, y, 1)
-                mardArr.push(Sermnacan)
-            }
+    for (let i = 0; i < 7; i++) {
+        var y = random(matrix.length)
+        var x = random(matrix[0].length)
+        if (matrix[y][x] == 0) {
+
+            console.log(y);
+            matrix[y][x] = 6
+            var serm = new Sermnacan(x, y, 6)
+            sermncanArr.push(serm)
+            break
 
         }
 
     }
-    io.sockets.emit("data", matrix)
+
+
+    io.sockets.emit("data", senddata)
 }
 
 function addgishatich() {
-    for (let y = 0; i < matrix.length; i++) {
-        for (let x = 0; j < matrix[0].length; j++) {
-            if (matrix[y][x] == 1) {
-                var Gishatich = Gishatich(x, y, 1)
-                mardArr.push(Gishatich)
-            }
+    for (let i = 0; i < 7; i++) {
+        var y = random(matrix.length)
+        var x = random(matrix[0].length)
+        if (matrix[y][x] == 0) {
+
+            console.log(y);
+            matrix[y][x] = 3
+            var gish = new Gishatich(x, y, 3)
+            gishatichArr.push(gish)
+            break
 
         }
 
     }
-    io.sockets.emit("data", matrix)
+
+
+    io.sockets.emit("data", senddata)
 }
 
 function strike(evt) {
@@ -249,14 +344,49 @@ function strike(evt) {
 
     }
 
-io.sockets.emit("data",matrix)
+    io.sockets.emit("data", senddata)
 }
 
+function kill() {
+    grassEaterArr = []
+    grassArr = []
+    mardArr = []
+    sermncanArr = []
+    gishatichArr = []
+    alleaterArr = []
+    for (let y = 0; y < matrix.length; y++) {
+        for (let x = 0; x < matrix[0].length; x++) {
+            matrix[y][x] = 0
 
+        }
 
+    }
+    io.sockets.emit("data", senddata)
+    return matrix
+
+}
+function start() {
+
+    createobject()
+    io.sockets.emit("data", senddata)
+};
+
+let senddata = {
+    matrix: matrix,
+    grasscount1: grasscount,
+    wheather: wheather
+
+}
 
 io.sockets.on("click", strike)
 io.on('connection', function (socket) {
-    createobject()
+
     socket.on("addgrass", addgrass)
+    socket.on("addgrasseater", addgrasseater)
+    socket.on("addmard", addmard)
+    socket.on("addgishatich", addgishatich)
+    socket.on("addalleater", addalleater)
+    socket.on("addsermnacan", addsermnacan)
+    socket.on("kill", kill)
+    socket.on("start", start)
 })
