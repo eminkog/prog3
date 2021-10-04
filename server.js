@@ -61,7 +61,7 @@ function changeweather() {
     io.sockets.emit("wheath", wheather)
 
 
-} console.log(wheather);
+}
 setInterval(changeweather, 7000)
 
 function generateMatrix() {
@@ -225,6 +225,7 @@ function game() {
 
     }
     grasscount = grassArr.length
+    console.log(matrix);
 
     io.sockets.emit("data", senddata)
 }
@@ -237,7 +238,7 @@ function addgrass() {
         var x = random(matrix[0].length)
         if (matrix[y][x] == 0) {
 
-            console.log(y);
+
             matrix[y][x] = 1
             var g = new Grass(x, y, 1)
             grassArr.push(g)
@@ -263,7 +264,7 @@ function addgrasseater() {
         var x = random(matrix[0].length)
         if (matrix[y][x] == 0) {
 
-            console.log(y);
+
             matrix[y][x] = 2
             var ge = new GrassEater(x, y, 2)
             grassEaterArr.push(ge)
@@ -283,7 +284,7 @@ function addalleater() {
         var x = random(matrix[0].length)
         if (matrix[y][x] == 0) {
 
-            console.log(y);
+
             matrix[y][x] = 4
             var all = new Alleater(x, y, 4)
             alleaterArr.push(all)
@@ -303,7 +304,7 @@ function addmard() {
         var x = random(matrix[0].length)
         if (matrix[y][x] == 0) {
 
-            console.log(y);
+
             matrix[y][x] = 5
             var mard = new Mard(x, y, 5)
             mardArr.push(mard)
@@ -323,7 +324,7 @@ function addsermnacan() {
         var x = random(matrix[0].length)
         if (matrix[y][x] == 0) {
 
-            console.log(y);
+
             matrix[y][x] = 6
             var serm = new Sermnacan(x, y, 6)
             sermncanArr.push(serm)
@@ -343,7 +344,7 @@ function addgishatich() {
         var x = random(matrix[0].length)
         if (matrix[y][x] == 0) {
 
-            console.log(y);
+
             matrix[y][x] = 3
             var gish = new Gishatich(x, y, 3)
             gishatichArr.push(gish)
@@ -357,45 +358,36 @@ function addgishatich() {
     io.sockets.emit("data", senddata)
 }
 
-function strike(evt) {
-    var randomarr = [
-        [matrix[x][y - 2] = 0]
-        [matrix[x - 1][y - 2] = 0]
-        [matrix[x + 1][y - 2] = 0]
-        [matrix[x + 2][y - 1] = 0]
-        [matrix[x + 2][y] = 0]
-        [matrix[x + 2][y + 1] = 0]
-        [matrix[x + 1][y + 2] = 0]
-        [matrix[x][y + 2] = 0]
-        [matrix[x - 1][y + 2] = 0]
-        [matrix[x - 2][y + 1] = 0]
-        [matrix[x - 2][y] = 0]
-        [matrix[x - 2][y - 1] = 0]
-    ]
-    var place = random(randomarr)
-    for (let y = 0; y < matrix.length; y++) {
-        for (let x = 0; x < matrix.length; x++) {
-            if (matrix[y][x] == place[0][1]) {
-                matrix[x][y - 2] = 0
-                matrix[x - 1][y - 2] = 0
-                matrix[x + 1][y - 2] = 0
-                matrix[x + 2][y - 1] = 0
-                matrix[x + 2][y] = 0
-                matrix[x + 2][y + 1] = 0
-                matrix[x + 1][y + 2] = 0
-                matrix[x][y + 2] = 0
-                matrix[x - 1][y + 2] = 0
-                matrix[x - 2][y + 1] = 0
-                matrix[x - 2][y] = 0
-                matrix[x - 2][y - 1] = 0
-            }
+function strike() {
+    x = random(20)
+    y = random(20)
+    console.log(x + " " + y);
 
-        }
 
+
+    if (y <= 18 && y > 0 && x <= 18 && x > 0) {
+        matrix[y + 1][x - 1] = 0;
+        matrix[y + 1][x] = 0;
+        matrix[y + 1][x + 1] = 0;
+        matrix[y][x - 1] = 0
+        matrix[y][x] = 0
+        matrix[y][x + 1] = 0
+        matrix[y - 1][x - 1] = 0
+        matrix[y - 1][x] = 0
+        matrix[y - 1][x + 1] = 0
+
+        io.sockets.emit("data", senddata)
     }
 
-    io.sockets.emit("data", senddata)
+
+
 }
+
+
+
+
+
+
 
 function kill() {
     grassEaterArr = []
@@ -439,4 +431,5 @@ io.on('connection', function (socket) {
     socket.on("addsermnacan", addsermnacan)
     socket.on("kill", kill)
     socket.on("start", start)
+    socket.on("strike", strike)
 })

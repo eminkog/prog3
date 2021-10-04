@@ -161,3 +161,8 @@ function start() {
 	})
 }
 
+function strike() {
+	socket.emit("strike", function () {
+	console.log("click")
+	})
+}
