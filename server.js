@@ -1,10 +1,9 @@
-
-
 var express = require('express');
 var random = require('./classes1/random');
 var app = express();
 var server = require('http').createServer(app);
 var io = require('socket.io')(server);
+var fs = require('fs')
 
 app.use(express.static("."));
 
@@ -68,7 +67,7 @@ function generateMatrix() {
     for (let y = 0; y < 20; y++) {
         matrix[y] = []
         for (let x = 0; x < 20; x++) {
-            var numbers = [0, 0, 0, 0, 0, 1, 1, 1, 1, 2, 2, 2, 2, 3, 3, 3, 4, 4, 4, 5, 5, 6, 6]
+            var numbers = [1,4]
             var elemante = random(numbers)
             matrix[y][x] = elemante
 
@@ -79,7 +78,8 @@ function generateMatrix() {
 
 
 }
-generateMatrix()
+setTimeout(generateMatrix,7000)
+
 
 function createobject() {
     for (let y = 0; y < matrix.length; y++) {
@@ -172,30 +172,16 @@ function game() {
             }
         }, 5000)
     }
-    else if (wheather == "spring") {
-        setTimeout(function () {
-            for (let i in grassArr) {
-                grassArr[i].mul()
+    else{
+        for (let i1 in grassArr) {
+            grassArr[i1].mul()
 
-            }
-        }, 3000)
+        }
     }
-    else if (wheather == "authumn") {
-        setTimeout(function () {
-            for (let i in grassArr) {
-                grassArr[i].mul()
-
-            }
-        }, 4000)
-    }
-    else if (wheather == "summer") {
-        setTimeout(function () {
-            for (let i in grassArr) {
-                grassArr[i].mul()
-
-            }
-        }, 1000)
-    }
+     
+  
+ 
+  
 
     //grass end
 
@@ -225,7 +211,7 @@ function game() {
 
     }
     grasscount = grassArr.length
-    console.log(matrix);
+
 
     io.sockets.emit("data", senddata)
 }
@@ -361,7 +347,6 @@ function addgishatich() {
 function strike() {
     x = random(20)
     y = random(20)
-    console.log(x + " " + y);
 
 
 
@@ -433,3 +418,16 @@ io.on('connection', function (socket) {
     socket.on("start", start)
     socket.on("strike", strike)
 })
+var statistics = {};
+
+setInterval(function() {
+    statistics.grass = grassArr.length;
+    statistics.grassEater = grassEaterArr.length;
+    statistics.alleaterArr = alleaterArr.length;
+    statistics.mard = mardArr.length
+    statistics.gishatich = gishatichArr.length
+    statistics.sermnacan = sermncanArr.length;
+    fs.writeFile("statistics.json", JSON.stringify(statistics), function(){
+        console.log("send");
+    })
+},1000)

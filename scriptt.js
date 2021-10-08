@@ -8,7 +8,7 @@ let td3 = document.getElementById("alleatercount")
 let td4 = document.getElementById("mardcount")
 let td5 = document.getElementById("sermnacancount")
 function setup() {
-	side = 20
+	side = 30
 
 	createCanvas(20 * side, 20 * side)
 	background("black")
@@ -51,7 +51,7 @@ function nkarel(data) {
 
 	for (var y = 0; y < 20; y++) {
 		for (var x = 0; x < 20; x++) {
-
+			console.log(data.matrix);
 			var obj = data.matrix[y][x]
 			// grass start
 			if (obj == 1) {

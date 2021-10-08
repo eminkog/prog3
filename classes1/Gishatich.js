@@ -3,17 +3,17 @@ var random = require("./random")
 
 
 
-module.exports=class Gishatich extends leavingcreature {
+module.exports = class Gishatich extends leavingcreature {
     constructor(x, y, id) {
-     super(x,y,id);
+        super(x, y, id);
         this.energy = 8;
- 
+
 
     }
     chooseCell(character) {
         this.getNewCoordinates();
         return super.chooseCell(character);
-    
+
     }
     getNewCoordinates() {
         this.directions = [
@@ -30,87 +30,23 @@ module.exports=class Gishatich extends leavingcreature {
 
 
     mul() {
-        var emptyCells = this.chooseCell(0);
-        var newCell = random(emptyCells);
-
-
-        if (newCell && this.energy >= 12) {
-            var newX = newCell[0];
-            var newY = newCell[1];
-            matrix[newY][newX] = this.id;
-
-            var newgishatich = new Gishatich(newX, newY, 3);
-            gishatichArr.push(newgishatich);
-            this.energy = 8;
-
-        }
+        return super.mul(Gishatich, gishatichArr, 3)
 
     }
 
 
     move() {
-        var emptyCells = this.chooseCell(0);
-        var newCell = random(emptyCells);
-
-        if (newCell && this.energy > 0) {
-            var newX = newCell[0];
-            var newY = newCell[1];
-            matrix[newY][newX] = this.id;
-
-            matrix[this.y][this.x] = 0;
-
-            this.x = newX;
-            this.y = newY;
-
-            this.energy--;
-
-        }
-        this.die()
-
+        return super.move(gishatichArr)
     }
 
 
     eat() {
-        var emptyCells = this.chooseCell(2);
-        var newCell = random(emptyCells);
-
-        if (newCell && this.energy >= 8) {
-            var newX = newCell[0];
-            var newY = newCell[1];
-            matrix[newY][newX] = this.id;
-
-            matrix[this.y][this.x] = 0;
-
-            this.x = newX;
-            this.y = newY;
-
-            this.energy++;
-
-            for (let i in grassEaterArr) {
-                if (newX == grassEaterArr[i].x && newY == grassEaterArr[i].y) {
-                    grassEaterArr.splice(i, 1);
-                    break;
-                }
-            }
-            this.mul()
-
-        } else {
-            this.move()
-        }
+  return super.eat(2,grassEaterArr)
 
     }
 
 
     die() {
-        if (this.energy <= 0) {
-            for (let i = 0; i < gishatichArr.length; i++) {
-                if (this.x == gishatichArr[i].x && this.y == gishatichArr[i].y) {
-                    gishatichArr.splice(i, 1)
-                    break
-                }
-            }
-
-            matrix[this.y][this.x] = 0
-        }
+    return super.die(gishatichArr)
     }
 }

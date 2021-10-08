@@ -51,12 +51,7 @@ module.exports=class Sermnacan extends leavingcreature {
 
             this.energy -= 8;
 
-        }
-        this.die()
-
-    }
-    die() {
-        if (this.energy <= 0) {
+        }else if(!newCell){
             for (let i = 0; i < sermncanArr.length; i++) {
                 if (this.x == sermncanArr[i].x && this.y == sermncanArr[i].y) {
                     sermncanArr.splice(i, 1)
@@ -65,6 +60,12 @@ module.exports=class Sermnacan extends leavingcreature {
             }
 
             matrix[this.y][this.x] = 0
+            return matrix
         }
+        this.die()
+
+    }
+    die() {
+    return super.die(sermncanArr)
     }
 }

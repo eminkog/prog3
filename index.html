@@ -50,7 +50,7 @@
                     կրակը, կամ նրան կոխկրտում է գիշատիչը</td>
                 <td id="grassCount"></td>
             </tr>
-            
+
             <tr>
                 <th scope="row">2</th>
                 <td scope="row" style="background-color:orange;"></td>
@@ -61,57 +61,82 @@
             <tr>
                 <th scope="row">3</th>
                 <td scope="row" style="background-color:red;"></td>
-                <td>Կարմիրը գիշատիչն  է, որը բազմանում է N ցիկլը մեկ, մահանում է մարդուց, ոչնչացնում է խոտակերներին</td>
+                <td>Կարմիրը գիշատիչն է, որը բազմանում է N ցիկլը մեկ, մահանում է մարդուց, ոչնչացնում է խոտակերներին</td>
                 <td id="gishatichcount"></td>
             </tr>
             <tr>
                 <th scope="row">4</th>
                 <td scope="row" style="background-color:blue;"></td>
-                <td>Կապույտը ամենակերն է , որը բազմանում է N ցիկլը մեկ, մահանում է ինքնուրույն, ոչնչացնում է բոլորին սակայն գործում է շատ կարճ ժամանակ </td>
+                <td>Կապույտը ամենակերն է , որը բազմանում է N ցիկլը մեկ, մահանում է ինքնուրույն, ոչնչացնում է բոլորին
+                    սակայն գործում է շատ կարճ ժամանակ </td>
                 <td id="alleatercount"></td>
             </tr>
             <tr>
                 <th scope="row">5</th>
                 <td scope="row" style="background-color:#BA4A00;"></td>
-                <td>Սա մարդն  է , որը բազմանում է N ցիկլը մեկ, մահանում է ինքնուրույն, ոչնչացնում է գիշատիչներին  սակայն գործում է այնքան մինչև էներգիան չի ավարտվել </td>
+                <td>Սա մարդն է , որը բազմանում է N ցիկլը մեկ, մահանում է ինքնուրույն, ոչնչացնում է գիշատիչներին սակայն
+                    գործում է այնքան մինչև էներգիան չի ավարտվել </td>
                 <td id="mardcount"></td>
             </tr>
             <tr>
                 <th scope="row">6</th>
                 <td scope="row" style="background-color:purple;"></td>
-                <td>Մանուշակագույնը սերմնացանն է  , որը չի բազմանում այլ իր փոխարեն ստեղծում է խոտ  </td>
+                <td>Մանուշակագույնը սերմնացանն է , որը չի բազմանում այլ իր փոխարեն ստեղծում է խոտ </td>
                 <td id="sermnacancount"></td>
             </tr>
         </tbody>
     </table>
-    <div class="tools">
-        <h1 style="color:yellowgreen">Events</h1>
-        <ul>
-           
-            <li>
-                <button style="margin-bottom:10px" onclick='addgrass()'> Add grass </button>
-                <br>
-                <button style="margin-bottom:10px" onclick='addgrasseater()'> addgrasseater </button>
-                <br>
-                <button style="margin-bottom:10px" onclick='addmard()'>addmard </button>
-                <br>
-                <button style="margin-bottom:10px" onclick='addsermnacan()'>addsermnacan </button>
-                <br>
-                <button style="margin-bottom:10px" onclick='addgishatich()'> addgishatich </button>
-                <br>
-                <button style="margin-bottom:10px" onclick='addalleater()'> addalleater </button>
-                <br>
-                <button style="margin-bottom:10px" onclick='kill()'> Kill all </button>
-                <br>
-                <button style="margin-bottom:10px" onclick='start()'>Start </button>
-                <br>
-                <button style="margin-bottom:10px" onclick='strike()'>Strike </button>
-
-            </li>
-            
-        </ul>
+    <div class="table">
+    <div class="row tools "  >
+    <div class="col">
+         <h1 style="color:yellowgreen">Game Events</h1>
+            <ul>
+    
+                <li>
+                    <button style="margin-bottom:10px" onclick='start()' class="btn btn-success">Start </button>
+                    <br>
+                    <button style="margin-bottom:10px ; background-color: #FF0000;" onclick='kill()' class="btn"> Kill All
+                    </button>
+                    <br>
+                   
+    
+                </li>
+    
+            </ul>
+        </div>
+        <div class="col"> <h1 style="color:yellowgreen">Characterss' Events</h1>
+            <ul>
+    
+                <li>
+                    
+                    <button style="margin-bottom:10px;background-color:grey; border:1px solid black;color: white;"
+                        onclick='strike()' class="btn">Strike </button>
+                       <p>Strike հրամանը ոչնչացնում  է կամայական 9 բլոկ </p>
+                
+                    <button style="margin-bottom:10px" onclick='addgrass()' class="btn btn-success"> Add Grass </button>
+                    <br>
+                    <button style="margin-bottom:10px" onclick='addgrasseater()' class="btn btn-warning"> Add Grasseater
+                    </button>
+                    <br>
+                    <button style="margin-bottom:10px;background-color:#BA4A00;color:white" onclick='addmard()'
+                        class="btn "> Add Mard </button>
+                    <br>
+                    <button style="margin-bottom:10px;background-color: purple;color:white" onclick='addsermnacan()'
+                        class="btn">Add Sermnacan </button>
+                    <br>
+                    <button style="margin-bottom:10px" onclick='addgishatich()' class="btn btn-danger"> Add Gishatich
+                    </button>
+                    <br>
+                    <button style="margin-bottom:10px" onclick='addalleater()' class="btn btn-primary"> Add Alleater
+                    </button>
+                    <br>
+    
+                </li>
+    
+            </ul></div>
     </div>
-
+    
+</div>
 
     <script src="./p5.js"></script>
     <script src="./node_modules/socket.io/client-dist/socket.io.js"></script>

@@ -2,11 +2,11 @@ var leavingcreature = require("./leavingcreauture")
 var random = require("./random")
 
 
-module.exports=class Alleater extends leavingcreature {
+module.exports = class Alleater extends leavingcreature {
     constructor(x, y, id) {
-     super(x,y,id)
-        this.energy = 8
-      
+        super(x, y, id)
+        this.energy = 18
+
 
     }
     chooseCell() {
@@ -36,44 +36,11 @@ module.exports=class Alleater extends leavingcreature {
         ];
     }
 
-    mul() {
-        var emptyCells = this.chooseCell(0);
-        var newCell = random(emptyCells);
 
 
-        if (newCell && this.energy >= 12) {
-            var newX = newCell[0];
-            var newY = newCell[1];
-            matrix[newY][newX] = this.id;
 
-            var newalleater = new Alleater(newX, newY, 4);
-            alleaterArr.push(newalleater);
-            this.energy = 8;
-
-        }
-
-    }
-
-    
     move() {
-        var emptyCells = this.chooseCell(0);
-        var newCell = random(emptyCells);
-
-        if (newCell && this.energy > 0) {
-            var newX = newCell[0];
-            var newY = newCell[1];
-            matrix[newY][newX] = this.id;
-
-            matrix[this.y][this.x] = 0;
-
-            this.x = newX;
-            this.y = newY;
-
-            this.energy--;
-
-        }
-        this.die()
-
+        return super.move(alleaterArr)
     }
 
     eat() {
@@ -122,7 +89,7 @@ module.exports=class Alleater extends leavingcreature {
                     break;
                 }
             }
-            this.mul()
+    
 
         } else {
             this.move()
@@ -130,15 +97,6 @@ module.exports=class Alleater extends leavingcreature {
 
     }
     die() {
-        if (this.energy <= 0) {
-            for (let i = 0; i < alleaterArr.length; i++) {
-                if (this.x == alleaterArr[i].x && this.y == alleaterArr[i].y) {
-                    alleaterArr.splice(i, 1)
-                    break
-                }
-            }
-
-            matrix[this.y][this.x] = 0
-        }
+return super.die(alleaterArr)
     }
 }
