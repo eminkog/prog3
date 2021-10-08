@@ -67,7 +67,7 @@ function generateMatrix() {
     for (let y = 0; y < 20; y++) {
         matrix[y] = []
         for (let x = 0; x < 20; x++) {
-            var numbers = [1,4]
+            var numbers = [0,0,0,0,0,1,1,1,1,2,2,2,2,3,3,3,4,4,4,5,5,6,6]
             var elemante = random(numbers)
             matrix[y][x] = elemante
 
