@@ -5,7 +5,7 @@ var random = require("./random")
 module.exports = class Alleater extends leavingcreature {
     constructor(x, y, id) {
         super(x, y, id)
-        this.energy = 18
+        this.energy = 10
 
 
     }

@@ -197,7 +197,7 @@ function game() {
         for (let i = 0; i < sermncanArr.length; i++) {
             sermncanArr[i].move()
         }
-    }, 2000)
+    }, 5000)
     setTimeout(function () {
         for (let i = 0; i < alleaterArr.length; i++) {
             alleaterArr[i].eat()
